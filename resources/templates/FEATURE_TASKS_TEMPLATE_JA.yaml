@@ -1,0 +1,5 @@
+tasks:
+  - id: TEMPLATE_ID
+    title: TEMPLATE_TITLE
+    details:
+      - TEMPLATE_DETAIL_1

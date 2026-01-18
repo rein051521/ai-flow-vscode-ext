@@ -1,0 +1,34 @@
+フォルダー パスの一覧:  ボリューム OS
+ボリューム シリアル番号は 2EAA-52B5 です
+C:.
+|   .vscodeignore
+|   diag_ext.cmd
+|   package.json
+|   README.md
+|   tsconfig.json
+|   _TREE_EXT.txt
+|   
++---out
++---resources
+|   \---templates
+|           CODEGEN_PROMPT_JA.md
+|           DEBUG_PROMPT_JA.md
+|           REVIEW_CHECKLIST_JA.md
+|           
++---scripts
+|       lint_stub.js
+|       test_stub.js
+|       
+\---src
+    |   extension.ts
+    |   
+    \---core
+            cmd.ts
+            config.ts
+            constants.ts
+            logging.ts
+            state.ts
+            templates.ts
+            types.ts
+            wizard.ts
+            

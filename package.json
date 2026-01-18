@@ -1,0 +1,138 @@
+{
+  "name": "ai-flow",
+  "displayName": "AI Flow",
+  "description": "Orchestrate strict-clean codegen → debug → validate flow.",
+  "version": "0.1.0",
+  "publisher": "local",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onCommand:aiFlow.open",
+    "onCommand:aiFlow.stepC",
+    "onView:aiFlow.runHistory"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "aiFlow.open",
+        "title": "AI Flow: Open Wizard"
+      },
+      {
+        "command": "aiFlow.stepC",
+        "title": "AI Flow: Step C"
+      }
+    ],
+    "configuration": {
+      "title": "AI Flow",
+      "properties": {
+        "aiFlow.pythonPath": {
+          "type": "string",
+          "default": ".\\\\.venv\\\\Scripts\\\\python",
+          "description": "Python executable path used for validate/guard commands (cmd.exe)."
+        },
+        "aiFlow.validateScript": {
+          "type": "string",
+          "default": "scripts\\\\validate_repo.py",
+          "description": "Path to validate_repo.py relative to workspace root."
+        },
+        "aiFlow.guardScript": {
+          "type": "string",
+          "default": "scripts\\\\guard_worktree.py",
+          "description": "Path to guard_worktree.py relative to workspace root."
+        },
+        "aiFlow.strictClean": {
+          "type": "boolean",
+          "default": true,
+          "description": "Append --strict-clean when running validate_repo."
+        },
+        "aiFlow.pythonCommand": {
+          "type": "string",
+          "default": "py",
+          "description": "Python command to run validate_repo.py (default: py)"
+        },
+        "aiFlow.pythonArgs": {
+          "type": "array",
+          "default": [
+            "-3.12"
+          ],
+          "items": {
+            "type": "string"
+          },
+          "description": "Arguments for pythonCommand (default: ['-3.12'])"
+        },
+        "aiFlow.defaultMode": {
+          "type": "string",
+          "enum": [
+            "docs",
+            "full"
+          ],
+          "default": "full",
+          "description": "Default gate mode."
+        },
+        "aiFlow.gate.timeoutSec": {
+          "type": "number",
+          "default": 900,
+          "minimum": 30,
+          "description": "Gate timeout seconds."
+        },
+        "aiFlow.templates.canonicalCodegenJa": {
+          "type": "string",
+          "default": "docs/prompts/AI_FLOW_CODEGEN_JA.md",
+          "description": "Canonical CODEGEN prompt path in workspace."
+        },
+        "aiFlow.templates.canonicalDebugJa": {
+          "type": "string",
+          "default": "docs/prompts/AI_FLOW_DEBUG_JA.md",
+          "description": "Canonical DEBUG prompt path in workspace."
+        }
+      }
+    },
+    "menus": {
+      "commandPalette": [
+        {
+          "command": "aiFlow.open",
+          "when": "true"
+        }
+      ]
+    },
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "aiFlow",
+          "title": "AI Flow",
+          "icon": "resources/icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "aiFlow": [
+        {
+          "id": "aiFlow.runHistory",
+          "name": "Run History"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run typecheck && npm run compile",
+    "compile": "node ./node_modules/esbuild/bin/esbuild src/extension.ts --bundle --platform=node --format=cjs --external:vscode --outfile=dist/extension.js",
+    "typecheck": "node ./node_modules/typescript/bin/tsc -p . --noEmit",
+    "lint": "npm run typecheck",
+    "watch": "node ./node_modules/esbuild/bin/esbuild src/extension.ts --bundle --platform=node --format=cjs --external:vscode --outfile=dist/extension.js --watch"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.30",
+    "@types/vscode": "^1.85.0",
+    "esbuild": "^0.27.2",
+    "typescript": "^5.5.4"
+  },
+  "dependencies": {
+    "yaml": "^2.5.0",
+    "zod": "^3.23.8"
+  }
+}

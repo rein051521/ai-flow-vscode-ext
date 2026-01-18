@@ -1,0 +1,1 @@
+Patched: Step C Webview + Run History + gate evidence storage in globalStorage. prepublish runs typecheck.

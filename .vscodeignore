@@ -1,0 +1,11 @@
+**/*.ts
+**/tsconfig.json
+**/scripts/*.js
+**/.vscode-test/**
+src/**
+out/**
+scripts/**
+node_modules/**
+**/*.map
+diag_ext.cmd
+_TREE_EXT.txt
