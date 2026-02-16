@@ -92,7 +92,7 @@
         },
         "aiFlow.templates.fallbackPolicy": {
           "type": "string",
-          "default": "prompt",
+          "default": "deny",
           "enum": [
             "prompt",
             "deny",

@@ -27,7 +27,11 @@ export async function loadTemplateText(
   const canonical = templateId === "codegen_ja" ? canonCodegen : canonDebug;
   const canonicalFs = join(repoRoot, canonical);
 
-  const fallbackPolicy = (cfg.get<string>("aiFlow.templates.fallbackPolicy") ?? "prompt") as FallbackPolicy;
+  const rawPolicy = cfg.get<string>("aiFlow.templates.fallbackPolicy") ?? "deny";
+  const fallbackPolicy: FallbackPolicy =
+    rawPolicy === "prompt" || rawPolicy === "deny" || rawPolicy === "allow"
+      ? rawPolicy
+      : "deny";
 
   // 1) canonical（workspace側）を最優先で読む
   const canon = await tryRead(canonicalFs);
