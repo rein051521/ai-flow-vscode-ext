@@ -268,7 +268,7 @@ export async function openStepCWebview(
 
   const panel = vscode.window.createWebviewPanel(
     "aiFlow.stepC",
-    "AI Flow Step C",
+    "AI Flow: Step C（検証 / プロンプト）",
     vscode.ViewColumn.One,
     { enableScripts: true, retainContextWhenHidden: true }
   );

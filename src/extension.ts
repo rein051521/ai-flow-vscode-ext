@@ -1,5 +1,6 @@
 import * as vscode from "vscode";
 import { openStepCWebview } from "./ui/stepCWebview";
+import { openFlowWebview } from "./ui/flowWebview";
 import { RunHistoryTreeDataProvider } from "./ui/runHistoryTree";
 
 function pickWorkspaceRoot(): string {
@@ -16,14 +17,29 @@ export async function activate(context: vscode.ExtensionContext): Promise<void> 
     vscode.window.registerTreeDataProvider("aiFlow.runHistory", historyProvider)
   );
 
-  const open = async () => {
-    const repoRoot = pickWorkspaceRoot();
-    await openStepCWebview(context, repoRoot, historyProvider);
+  const openWizard = async () => {
+    try {
+      const repoRoot = pickWorkspaceRoot();
+      await openFlowWebview(context, repoRoot, historyProvider);
+    } catch (e) {
+      const msg = e instanceof Error ? e.message : String(e);
+      vscode.window.showErrorMessage(msg);
+    }
+  };
+
+  const openStepC = async () => {
+    try {
+      const repoRoot = pickWorkspaceRoot();
+      await openStepCWebview(context, repoRoot, historyProvider);
+    } catch (e) {
+      const msg = e instanceof Error ? e.message : String(e);
+      vscode.window.showErrorMessage(msg);
+    }
   };
 
   context.subscriptions.push(
-    vscode.commands.registerCommand("aiFlow.open", open),
-    vscode.commands.registerCommand("aiFlow.stepC", open)
+    vscode.commands.registerCommand("aiFlow.open", openWizard),
+    vscode.commands.registerCommand("aiFlow.stepC", openStepC)
   );
 }
 

@@ -8,7 +8,7 @@ class RunItem extends vscode.TreeItem {
     this.tooltip = `${run.id}\n${run.failLine ?? ""}`;
     this.command = {
       command: "vscode.open",
-      title: "Open meta.json",
+      title: "meta.jsonを開く",
       arguments: [vscode.Uri.file(run.artifacts.metaJson)]
     };
   }

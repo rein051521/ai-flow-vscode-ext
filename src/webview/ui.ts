@@ -17,37 +17,53 @@ function escapeHtml(s: string): string {
     .replaceAll("&", "&amp;")
     .replaceAll("<", "&lt;")
     .replaceAll(">", "&gt;")
-    .replaceAll("\"", "&quot;");
+    .replaceAll('"', "&quot;");
 }
 
 export function renderHtml(state: UiState): string {
   const last = state.lastGate
-    ? `${state.lastGate.ok ? "PASS" : "FAIL"} (exit ${state.lastGate.exitCode}) @ ${escapeHtml(state.lastGate.ranAt)}`
-    : "(not run yet)";
+    ? `${state.lastGate.ok ? "OK" : "NG"} (exit ${state.lastGate.exitCode}) @ ${escapeHtml(state.lastGate.ranAt)}`
+    : "(未実行)";
 
   const errorTable = state.errors.length
     ? `<table>
         <thead><tr><th>code</th><th>message</th></tr></thead>
         <tbody>
-          ${state.errors.map((e) => `<tr><td>${escapeHtml(e.code)}</td><td>${escapeHtml(e.message)}</td></tr>`).join("\n")}
+          ${state.errors
+            .map(
+              (e) =>
+                `<tr><td>${escapeHtml(e.code)}</td><td>${escapeHtml(e.message)}</td></tr>`
+            )
+            .join("\n")}
         </tbody>
       </table>`
     : "";
 
   const evidenceList = state.evidence.length
     ? `<ul>
-        ${state.evidence.map((it) => `<li><a href="#" data-evid="${escapeHtml(it.id)}">${escapeHtml(it.label)}</a></li>`).join("\n")}
+        ${state.evidence
+          .map(
+            (it) =>
+              `<li><a href="#" data-evid="${escapeHtml(it.id)}">${escapeHtml(
+                it.label
+              )}</a></li>`
+          )
+          .join("\n")}
       </ul>`
-    : "(none)";
+    : "(なし)";
 
   const tabButton = (id: string, label: string, active: boolean) =>
-    `<button class="tabbtn${active ? " active" : ""}" data-tab="${id}">${escapeHtml(label)}</button>`;
+    `<button class="tabbtn${active ? " active" : ""}" data-tab="${id}">${escapeHtml(
+      label
+    )}</button>`;
 
   const tabPanel = (id: string, content: string, active: boolean) =>
-    `<div class="tabpanel${active ? " active" : ""}" id="tab-${id}"><pre>${escapeHtml(content)}</pre></div>`;
+    `<div class="tabpanel${active ? " active" : ""}" id="tab-${id}"><pre>${escapeHtml(
+      content
+    )}</pre></div>`;
 
   return `<!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -69,40 +85,48 @@ export function renderHtml(state: UiState): string {
     table { border-collapse: collapse; width: 100%; }
     th, td { border: 1px solid var(--vscode-editorWidget-border); padding: 6px; text-align: left; }
     h2 { margin-top: 0; }
+    code { font-family: var(--vscode-editor-font-family); }
   </style>
 </head>
 <body>
   <div class="row">
     <div class="card">
-      <h2>Session</h2>
-      <div><span class="muted">featureKey</span>: <strong>${escapeHtml(state.featureKey)}</strong></div>
-      <div><span class="muted">storage</span>: <code>${escapeHtml(state.storagePath)}</code></div>
-      <div><span class="muted">last gate</span>: <strong>${last}</strong></div>
-      <div class="muted" style="margin-top:8px;">token estimate: codegen=${state.tokenEstimates.codegen}, debug=${state.tokenEstimates.debug}</div>
+      <h2>セッション</h2>
+      <div><span class="muted">機能キー</span>: <strong>${escapeHtml(
+        state.featureKey
+      )}</strong></div>
+      <div><span class="muted">保存先</span>: <code>${escapeHtml(
+        state.storagePath
+      )}</code></div>
+      <div><span class="muted">直近Gate</span>: <strong>${last}</strong></div>
+      <div class="muted" style="margin-top:8px;">トークン概算: CODEGEN=${state.tokenEstimates.codegen}, DEBUG=${state.tokenEstimates.debug}</div>
+
       <div style="margin-top: 12px; display:flex; gap: 8px; flex-wrap: wrap;">
-        <button id="btn-generate">Generate</button>
-        <button id="btn-gate">Run Gate</button>
-        <button id="btn-copy-codegen" class="secondary">Copy Codegen</button>
-        <button id="btn-copy-debug" class="secondary">Copy Debug</button>
-        <button id="btn-export" class="secondary">Export</button>
+        <button id="btn-generate">プロンプト生成</button>
+        <button id="btn-gate">Gate実行（検証）</button>
+        <button id="btn-copy-codegen" class="secondary">CODEGENをコピー</button>
+        <button id="btn-copy-debug" class="secondary">DEBUGをコピー</button>
+        <button id="btn-export" class="secondary">テンプレートを配置</button>
       </div>
-      <div class="muted" style="margin-top: 8px;">Export writes into the workspace and may make it dirty.</div>
+      <div class="muted" style="margin-top: 8px;">
+        「テンプレートを配置」はワークスペース内にファイルを作成/更新します（Git差分が出ます）。
+      </div>
     </div>
 
     <div class="card">
-      <h2>Errors</h2>
-      ${errorTable || "(none)"}
+      <h2>エラー</h2>
+      ${errorTable || "(なし)"}
     </div>
   </div>
 
   <div class="row" style="margin-top: 12px;">
     <div class="card">
-      <h2>Preview</h2>
+      <h2>プレビュー</h2>
       <div class="tabs">
-        ${tabButton("spec", "Spec", true)}
-        ${tabButton("tasks", "Tasks", false)}
-        ${tabButton("codegen", "Codegen", false)}
-        ${tabButton("debug", "Debug", false)}
+        ${tabButton("spec", "仕様（Spec）", true)}
+        ${tabButton("tasks", "タスク（Tasks）", false)}
+        ${tabButton("codegen", "CODEGEN", false)}
+        ${tabButton("debug", "DEBUG", false)}
       </div>
       ${tabPanel("spec", state.previews.spec, true)}
       ${tabPanel("tasks", state.previews.tasks, false)}
@@ -111,7 +135,7 @@ export function renderHtml(state: UiState): string {
     </div>
 
     <div class="card">
-      <h2>Evidence Pack</h2>
+      <h2>証跡（Evidence Pack）</h2>
       ${evidenceList}
     </div>
   </div>

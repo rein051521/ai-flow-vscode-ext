@@ -1,7 +1,7 @@
 {
   "name": "ai-flow",
-  "displayName": "AI Flow",
-  "description": "Orchestrate strict-clean codegen → debug → validate flow.",
+  "displayName": "%aiFlow.displayName%",
+  "description": "%aiFlow.description%",
   "version": "0.1.0",
   "publisher": "local",
   "engines": {
@@ -20,40 +20,40 @@
     "commands": [
       {
         "command": "aiFlow.open",
-        "title": "AI Flow: Open Wizard"
+        "title": "%aiFlow.commands.open.title%"
       },
       {
         "command": "aiFlow.stepC",
-        "title": "AI Flow: Step C"
+        "title": "%aiFlow.commands.stepC.title%"
       }
     ],
     "configuration": {
-      "title": "AI Flow",
+      "title": "%aiFlow.configuration.title%",
       "properties": {
         "aiFlow.pythonPath": {
           "type": "string",
           "default": ".\\\\.venv\\\\Scripts\\\\python",
-          "description": "Python executable path used for validate/guard commands (cmd.exe)."
+          "description": "%aiFlow.configuration.aiFlow.pythonPath.description%"
         },
         "aiFlow.validateScript": {
           "type": "string",
           "default": "scripts\\\\validate_repo.py",
-          "description": "Path to validate_repo.py relative to workspace root."
+          "description": "%aiFlow.configuration.aiFlow.validateScript.description%"
         },
         "aiFlow.guardScript": {
           "type": "string",
           "default": "scripts\\\\guard_worktree.py",
-          "description": "Path to guard_worktree.py relative to workspace root."
+          "description": "%aiFlow.configuration.aiFlow.guardScript.description%"
         },
         "aiFlow.strictClean": {
           "type": "boolean",
           "default": true,
-          "description": "Append --strict-clean when running validate_repo."
+          "description": "%aiFlow.configuration.aiFlow.strictClean.description%"
         },
         "aiFlow.pythonCommand": {
           "type": "string",
           "default": "py",
-          "description": "Python command to run validate_repo.py (default: py)"
+          "description": "%aiFlow.configuration.aiFlow.pythonCommand.description%"
         },
         "aiFlow.pythonArgs": {
           "type": "array",
@@ -63,7 +63,7 @@
           "items": {
             "type": "string"
           },
-          "description": "Arguments for pythonCommand (default: ['-3.12'])"
+          "description": "%aiFlow.configuration.aiFlow.pythonArgs.description%"
         },
         "aiFlow.defaultMode": {
           "type": "string",
@@ -72,23 +72,48 @@
             "full"
           ],
           "default": "full",
-          "description": "Default gate mode."
+          "description": "%aiFlow.configuration.aiFlow.defaultMode.description%"
         },
         "aiFlow.gate.timeoutSec": {
           "type": "number",
           "default": 900,
           "minimum": 30,
-          "description": "Gate timeout seconds."
+          "description": "%aiFlow.configuration.aiFlow.gate.timeoutSec.description%"
         },
         "aiFlow.templates.canonicalCodegenJa": {
           "type": "string",
           "default": "docs/prompts/AI_FLOW_CODEGEN_JA.md",
-          "description": "Canonical CODEGEN prompt path in workspace."
+          "description": "%aiFlow.configuration.aiFlow.templates.canonicalCodegenJa.description%"
         },
         "aiFlow.templates.canonicalDebugJa": {
           "type": "string",
           "default": "docs/prompts/AI_FLOW_DEBUG_JA.md",
-          "description": "Canonical DEBUG prompt path in workspace."
+          "description": "%aiFlow.configuration.aiFlow.templates.canonicalDebugJa.description%"
+        },
+        "aiFlow.templates.fallbackPolicy": {
+          "type": "string",
+          "default": "prompt",
+          "enum": [
+            "prompt",
+            "deny",
+            "allow"
+          ],
+          "description": "%aiFlow.configuration.aiFlow.templates.fallbackPolicy.description%"
+        },
+        "aiFlow.docs.featureSpecTemplate": {
+          "type": "string",
+          "default": "docs/specs/FEATURE_SPEC_TEMPLATE.md",
+          "description": "%aiFlow.configuration.aiFlow.docs.featureSpecTemplate.description%"
+        },
+        "aiFlow.docs.featureTasksTemplateJa": {
+          "type": "string",
+          "default": "docs/specs/FEATURE_TASKS_TEMPLATE_JA.yaml",
+          "description": "%aiFlow.configuration.aiFlow.docs.featureTasksTemplateJa.description%"
+        },
+        "aiFlow.docs.outDir": {
+          "type": "string",
+          "default": "docs/specs",
+          "description": "%aiFlow.configuration.aiFlow.docs.outDir.description%"
         }
       }
     },
@@ -97,6 +122,10 @@
         {
           "command": "aiFlow.open",
           "when": "true"
+        },
+        {
+          "command": "aiFlow.stepC",
+          "when": "true"
         }
       ]
     },
@@ -104,7 +133,7 @@
       "activitybar": [
         {
           "id": "aiFlow",
-          "title": "AI Flow",
+          "title": "%aiFlow.viewsContainer.title%",
           "icon": "resources/icon.svg"
         }
       ]
@@ -113,26 +142,36 @@
       "aiFlow": [
         {
           "id": "aiFlow.runHistory",
-          "name": "Run History"
+          "name": "%aiFlow.views.runHistory.name%"
         }
       ]
     }
   },
   "scripts": {
     "vscode:prepublish": "npm run typecheck && npm run compile",
-    "compile": "node ./node_modules/esbuild/bin/esbuild src/extension.ts --bundle --platform=node --format=cjs --external:vscode --outfile=dist/extension.js",
-    "typecheck": "node ./node_modules/typescript/bin/tsc -p . --noEmit",
+    "compile": "esbuild src/extension.ts --bundle --platform=node --format=cjs --external:vscode --outfile=dist/extension.js",
+    "typecheck": "tsc -p . --noEmit",
     "lint": "npm run typecheck",
-    "watch": "node ./node_modules/esbuild/bin/esbuild src/extension.ts --bundle --platform=node --format=cjs --external:vscode --outfile=dist/extension.js --watch"
+    "watch": "esbuild src/extension.ts --bundle --platform=node --format=cjs --external:vscode --outfile=dist/extension.js --watch",
+    "build": "npm run typecheck && npm run compile",
+    "package:vsix": "npm run vscode:prepublish && vsce package --no-dependencies",
+    "package:vsix:quiet": "node scripts/package_vsix_quiet.js"
   },
   "devDependencies": {
-    "@types/node": "^20.11.30",
+    "@types/node": "^20.19.30",
     "@types/vscode": "^1.85.0",
+    "typescript": "^5.5.4",
     "esbuild": "^0.27.2",
-    "typescript": "^5.5.4"
+    "@vscode/vsce": "^3.6.0"
   },
   "dependencies": {
-    "yaml": "^2.5.0",
-    "zod": "^3.23.8"
+    "zod": "^3.23.8",
+    "yaml": "^2.5.0"
+  },
+  "license": "MIT",
+  "repository": "file:.",
+  "homepage": "",
+  "bugs": {
+    "url": ""
   }
 }
