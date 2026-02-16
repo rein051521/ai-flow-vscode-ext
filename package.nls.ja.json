@@ -1,0 +1,23 @@
+{
+  "aiFlow.displayName": "AI Flow",
+  "aiFlow.description": "strict-cleanなコード生成・デバッグ・検証フローを一気通貫で実行します。",
+  "aiFlow.commands.open.title": "AI Flow: ウィザードを開く",
+  "aiFlow.commands.stepC.title": "AI Flow: Step C（実行/検証）",
+  "aiFlow.configuration.title": "AI Flow",
+  "aiFlow.configuration.aiFlow.pythonPath.description": "validate/guard実行に使うPython実行ファイルのパス（cmd.exeで実行）",
+  "aiFlow.configuration.aiFlow.validateScript.description": "validate_repo.py の相対パス（ワークスペースルート基準）",
+  "aiFlow.configuration.aiFlow.guardScript.description": "guard_worktree.py の相対パス（ワークスペースルート基準）",
+  "aiFlow.configuration.aiFlow.strictClean.description": "validate_repo 実行時に --strict-clean を付与します",
+  "aiFlow.configuration.aiFlow.pythonCommand.description": "Pythonコマンド（既定: py）。例: py / python / .\\.venv\\Scripts\\python",
+  "aiFlow.configuration.aiFlow.pythonArgs.description": "pythonCommand に渡す引数（既定: [\"-3.12\"]）",
+  "aiFlow.configuration.aiFlow.defaultMode.description": "既定の検証モード（docs / full）",
+  "aiFlow.configuration.aiFlow.gate.timeoutSec.description": "Gate（検証）実行のタイムアウト秒数",
+  "aiFlow.configuration.aiFlow.templates.canonicalCodegenJa.description": "ワークスペース内の CODEGEN 用プロンプト（正）ファイルパス",
+  "aiFlow.configuration.aiFlow.templates.canonicalDebugJa.description": "ワークスペース内の DEBUG 用プロンプト（正）ファイルパス",
+  "aiFlow.viewsContainer.title": "AI Flow",
+  "aiFlow.views.runHistory.name": "実行履歴",
+  "aiFlow.configuration.aiFlow.templates.fallbackPolicy.description": "テンプレ（正）が見つからない場合の挙動。prompt=毎回確認 / deny=失敗（fail-closed） / allow=無条件でfallback",
+  "aiFlow.configuration.aiFlow.docs.featureSpecTemplate.description": "FEATURE_SPEC 用テンプレ（ワークスペース内）のパス",
+  "aiFlow.configuration.aiFlow.docs.featureTasksTemplateJa.description": "FEATURE_TASKS（日本語）用テンプレ（ワークスペース内）のパス",
+  "aiFlow.configuration.aiFlow.docs.outDir.description": "ドキュメント出力先ディレクトリ（既定: docs/specs）"
+}

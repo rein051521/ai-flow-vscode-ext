@@ -18,3 +18,8 @@ prettier*.*
 pnpm-lock.yaml
 yarn.lock
 npm-debug.log*
+.gitignore
+.vscode/**
+PATCH_*.diff
+PATCH_NOTE.txt
+_TREE_EXT.txt

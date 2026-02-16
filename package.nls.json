@@ -1,0 +1,23 @@
+{
+  "aiFlow.displayName": "AI Flow",
+  "aiFlow.description": "Orchestrate strict-clean codegen • debug • validate flow.",
+  "aiFlow.commands.open.title": "AI Flow: Open Wizard",
+  "aiFlow.commands.stepC.title": "AI Flow: Step C",
+  "aiFlow.configuration.title": "AI Flow",
+  "aiFlow.configuration.aiFlow.pythonPath.description": "Python executable path used for validate/guard commands (cmd.exe).",
+  "aiFlow.configuration.aiFlow.validateScript.description": "Path to validate_repo.py relative to workspace root.",
+  "aiFlow.configuration.aiFlow.guardScript.description": "Path to guard_worktree.py relative to workspace root.",
+  "aiFlow.configuration.aiFlow.strictClean.description": "Append --strict-clean when running validate_repo.",
+  "aiFlow.configuration.aiFlow.pythonCommand.description": "Python command to run validate_repo.py (default: py)",
+  "aiFlow.configuration.aiFlow.pythonArgs.description": "Arguments for pythonCommand (default: ['-3.12'])",
+  "aiFlow.configuration.aiFlow.defaultMode.description": "Default gate mode.",
+  "aiFlow.configuration.aiFlow.gate.timeoutSec.description": "Gate timeout seconds.",
+  "aiFlow.configuration.aiFlow.templates.canonicalCodegenJa.description": "Canonical CODEGEN prompt path in workspace.",
+  "aiFlow.configuration.aiFlow.templates.canonicalDebugJa.description": "Canonical DEBUG prompt path in workspace.",
+  "aiFlow.viewsContainer.title": "AI Flow",
+  "aiFlow.views.runHistory.name": "Run History",
+  "aiFlow.configuration.aiFlow.templates.fallbackPolicy.description": "Fallback policy when canonical prompt is missing: prompt/deny/allow.",
+  "aiFlow.configuration.aiFlow.docs.featureSpecTemplate.description": "FEATURE_SPEC template path in workspace.",
+  "aiFlow.configuration.aiFlow.docs.featureTasksTemplateJa.description": "FEATURE_TASKS (JA) template path in workspace.",
+  "aiFlow.configuration.aiFlow.docs.outDir.description": "Output directory for generated docs."
+}

@@ -3,3 +3,10 @@ dist/
 out/
 *.vsix
 .vscode-test/
+*.vsix
+.vscode/
+node_modules/
+*.vsix
+node_modules/
+.vscode/
+PATCH_*.diff
