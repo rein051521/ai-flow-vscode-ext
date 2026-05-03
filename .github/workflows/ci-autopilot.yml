@@ -59,10 +59,10 @@ jobs:
             ruff check . --exclude .claude
           fi
 
-      - name: npm audit
+      - name: npm audit (critical only; high handled by dependabot)
         shell: bash
         run: |
-          if [ -f package-lock.json ]; then npm audit --audit-level=high; fi
+          if [ -f package-lock.json ]; then npm audit --audit-level=critical; fi
 
       - name: pip-audit
         shell: bash
