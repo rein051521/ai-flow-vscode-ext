@@ -1,0 +1,102 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(*)",
+      "Edit(*)",
+      "Write(*)",
+      "Bash(git status*)",
+      "Bash(git diff*)",
+      "Bash(git log*)",
+      "Bash(git branch*)",
+      "Bash(git checkout -b*)",
+      "Bash(git add*)",
+      "Bash(git commit*)",
+      "Bash(git push origin HEAD*)",
+      "Bash(npm test*)",
+      "Bash(npm run test*)",
+      "Bash(npm run build*)",
+      "Bash(npm run lint*)",
+      "Bash(npm run typecheck*)",
+      "Bash(pnpm test*)",
+      "Bash(pnpm run build*)",
+      "Bash(pnpm run lint*)",
+      "Bash(pnpm run typecheck*)",
+      "Bash(pytest*)",
+      "Bash(ruff check*)",
+      "Bash(mypy*)",
+      "Bash(python -m pytest*)",
+      "Bash(python scripts/verify*)",
+      "Bash(py scripts/verify*)",
+      "Bash(gh pr create*)",
+      "Bash(gh pr view*)",
+      "Bash(gh pr checks*)",
+      "Bash(gh pr merge * --auto*)",
+      "Bash(gh run view*)",
+      "Bash(gh run watch*)",
+      "Bash(gh workflow run*)",
+      "Bash(curl -I http://localhost*)",
+      "Bash(curl -I https://localhost*)",
+      "Bash(curl -X GET http://localhost*)",
+      "Bash(curl -X GET https://localhost*)"
+    ],
+    "deny": [
+      "Bash(*)",
+      "Read(**/.env*)",
+      "Read(**/*secret*)",
+      "Read(**/*token*)",
+      "Read(**/*password*)",
+      "Read(**/.ssh/**)",
+      "Read(**/.aws/**)",
+      "Read(**/.gnupg/**)",
+      "Read(**/.azure/**)",
+      "Read(**/.kube/**)",
+      "Read(**/.npmrc)",
+      "Read(**/.pypirc)",
+      "Bash(rm -rf /*)",
+      "Bash(git reset --hard*)",
+      "Bash(git clean -fdx*)",
+      "Bash(git push --force*)",
+      "Bash(git push * --force*)",
+      "Bash(git push * --force-with-lease*)",
+      "Bash(git push --mirror*)",
+      "Bash(git push --all*)",
+      "Bash(git push origin main*)",
+      "Bash(git push origin master*)",
+      "Bash(git push origin develop*)",
+      "Bash(git push origin HEAD:main*)",
+      "Bash(git push origin HEAD:master*)",
+      "Bash(git push origin HEAD:develop*)",
+      "Bash(stripe * create*)",
+      "Bash(stripe * refund*)",
+      "Bash(stripe * cancel*)"
+    ],
+    "ask": []
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python \"$CLAUDE_PROJECT_DIR/.claude/hooks/safety_guard.py\""
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python \"$CLAUDE_PROJECT_DIR/.claude/hooks/stop_summary_guard.py\""
+          }
+        ]
+      }
+    ]
+  },
+  "sandbox": {
+    "enabled": false,
+    "failIfUnavailable": false
+  }
+}

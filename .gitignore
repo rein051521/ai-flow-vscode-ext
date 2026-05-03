@@ -10,3 +10,7 @@ node_modules/
 node_modules/
 .vscode/
 PATCH_*.diff
+
+# Autopilot v4
+.autopilot-backups/
+*.bak-autopilot-v4-*
